@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>表单输入绑定</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    <!-- 复选框 -->
+    <div id="example-1">
+        <input type="checkbox" id="jack" value="jack" v-model="checkNames">
+        <label for="jack">jack</label>
+        <input type="checkbox" id="petter" value="petter" v-model="checkNames">
+        <label for="petter">petter</label>
+        <input type="checkbox" id="joe" value="joe" v-model="checkNames">
+        <label for="joe">joe</label>
+        <span :style="{display:block}">choosedNames:{{checkNames}}</span>
+    </div>
+    <br>
+    <!-- 单选按钮 -->
+    <div id="example-2">
+        <input type="radio" id="one" value="one" v-model="picked">
+        <label for="one">one</label>
+        <br>
+        <input type="radio" id="two" value="two" v-model="picked">
+        <label for="two">two</label>
+        <br>
+        <span>picked:{{picked}}</span>
+    </div>
+    <br>
+    <!-- 下拉框 -->
+    <div id="example-3">
+        <select v-model="selecteds">
+            <option disabled value="">请选择</option>
+            <option v-for="option in options" :value="option.value">{{option.text}}</option>
+        </select>
+        <br>
+        <span>选择：{{selecteds}}</span>
+    </div>
+
+    <script src="js/vue.js"></script>
+    <script>
+        var expmple1 = new Vue({
+            el:"#example-1",
+            data:{
+                checkNames:[],
+                block:"block"
+            }
+        })
+
+        var example2 = new Vue({
+            el:"#example-2",
+            data:{
+                picked:""
+            }
+        })
+
+        var example3 = new Vue({
+            el:"#example-3",
+            data:{
+                selecteds:"二",  //设置默认选中value为二的选项
+                options:[
+                    {text:"1", value:"一"},
+                    {text:"2", value:"二"},
+                    {text:"3", value:"三"},
+                    {text:"4", value:"四"}
+                ]
+            },
+            computed:{
+                checkSelected: function(){
+                //    this.options.forEach(function(content,index){
+                //         if(content.value == "四"){
+                //             return "selected"
+                //         }
+                //    })
+                return "selected"
+                }  
+            }
+        })
+    </script>
+</body>
+</html>

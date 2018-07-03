@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>组件注册</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+</head>
+<body>
+    <div id="root">
+        <global-component></global-component>
+        <component-a></component-a>
+        <component-b></component-b>
+    </div>
+
+    <script src="js/vue.js"></script>
+    <script>
+        // 1.全局注册
+        Vue.component('global-component',{
+            template:`
+             <div>这是一个全局组件</div>
+            `
+        })  
+        // 2.局部注册
+        var component2 = {
+            template:`
+                <div>局部组件2</div>
+            `
+        }
+        var component1 = {
+            template:`
+                <div>局部组件1</div>
+            `
+        }
+        new Vue({
+            el:"#root",
+            components:{
+                'component-a':component1,
+                'component-b':component2,
+            }
+        })   
+    </script>
+</body>
+</html>

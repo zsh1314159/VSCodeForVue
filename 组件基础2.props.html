@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>props</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    <div id="root">
+        <demo1 post-title="hello"></demo1>
+        <br>
+        <demo2 v-bind="obj"></demo2>
+    </div>
+
+    <script src="js/vue.js"></script>
+    <script>
+        //数组形式的prop
+        var demo1 = {
+            props:['postTitle'],
+            template:`
+                <div>{{postTitle}}</div>
+            `
+        }
+        //对象形式的prop，可指定值类型
+        var demo2 = {
+            props:{
+                //默认值
+                title:{
+                    type:String,
+                    default:"默认标题"
+                },
+                //非空验证
+                sum:{
+                  type:Number,
+                  required:true  
+                },
+                isPushed:Boolean,
+                pushedUserId:Array,
+                author:Person     //author的类型是Person对象
+            },
+            template:`
+                <div>
+                    <div>标题:{{title}}</div>
+                    <div>访问总数:{{sum}}</div>
+                    <div v-if="isPushed">是否推送:是</div>
+                    <div v-else>是否推送:否</div>
+                    <div>被推送用户id:{{pushedUserId}}</div>
+                    <div>推送人信息：
+                        <div>姓名：{{author.name}}</div>
+                        <div>性别：{{author.sex}}</div>
+                        <div>年龄：{{author.age}}</div>
+                    </div>
+                </div>    
+            `
+        }
+        new Vue({
+            el:"#root",
+            data:{
+                obj:{
+                    title:"Hello hello hey",
+                    sum:1,
+                    isPushed:true,
+                    pushedUserId:["u1","u2"],
+                    author:new Person("zsh",23,"male")  //由构造函数创建Person对象
+                }
+            },
+            components:{
+                "demo1":demo1,
+                "demo2":demo2
+            }
+        })
+        
+        //Person 的构造函数
+        function Person(name,age,sex){
+            this.name = name
+            this.age = age
+            this.sex = sex
+        }
+    </script>
+</body>
+</html>

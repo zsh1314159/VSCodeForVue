@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>条件渲染</title>
+    
+</head>    
+<body>
+    <div id="template1">
+        <!-- <template> 标签不能作为vue实例的根元素，并且它本身不会被游览器渲染 -->
+        <template v-if="ok">
+            <h1>okok</h1>
+        </template>
+        <template v-else>
+            <h1>not ok</h1>
+        </template>
+    
+        <template v-if="loginType === 'username'">
+            <label>Username</label>
+            <!-- 加了key值区分以后，每次都会重新渲染，不加的话input这个标签就会复用 -->
+            <input placeholder="Enter Your username" key="username-input">
+        </template>
+        <template v-else>
+            <label>Email</label>
+            <input placeholder="Enter your Email" key="email-input">
+        </template>
+        <button v-bind:style="bottonStyle" @click="changeLoginType">change loginType</button>
+    </div>
+    
+
+    <script src="js/vue.js"></script>
+    <script>
+        var template1 = new Vue({
+            el:"#template1",
+            data:{
+                ok:true,
+                loginType:"username",
+                bottonStyle:{
+                    display:"block",
+                    backgroundColor:"pink"            
+                }
+            },
+            methods:{
+                changeLoginType: function(){
+                    if(this.loginType == "username"){
+                        this.loginType = "email"
+                    }else{
+                        this.loginType = "username" 
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+</html>

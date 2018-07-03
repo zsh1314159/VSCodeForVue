@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>列表渲染</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    <ul id="example-1">
+        <li v-for="(s,index) of sb">
+            {{s.say}}-{{index+1}} 
+        </li>
+    </ul>
+
+    <script src="js/vue.js"></script>
+    <script>
+        var expmple1 = new Vue({
+            el:"#example-1",
+            data:{
+                sb:[
+                    {say:"汪汪汪"},
+                    {say:"喵喵喵"},
+                    {say:"咩咩咩"},
+                    {say:"咯咯咯"}
+                ]
+            }
+        })
+    </script>
+</body>
+</html>

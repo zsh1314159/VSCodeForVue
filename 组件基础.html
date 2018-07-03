@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>组件基础</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .active{
+            background-color: pink
+        }
+    </style>
+</head>
+<body>
+    <div id="component-demo1">
+        <button-counter></button-counter>
+        <button-counter></button-counter>
+    </div>
+    <br>
+    <!-- 向上级组件发送消息 -->
+    <div id="component-demo2" :style="{fontSize: postFontSize + 'em'}">
+        <blog-post 
+          v-for="po in posts"
+          v-bind:key="po.id" 
+          v-bind:post="po" 
+          v-on:enlarge-text="postFontSize += $event">
+        </blog-post>
+    </div>    
+    <br>
+    <!-- 在组件上使用v-model -->
+    <div id="component-demo3">
+        <custom-input v-model="searchText"></custom-input>
+        <span>{{searchText}}</span>
+    </div>    
+    <br>
+    <!-- 通过插槽分发内容 -->
+    <div id="component-demo4">
+        <alert-box>you have a unwatched message!</alert-box>
+    </div>
+    <br>
+    <!-- 动态组件 -->
+    <div id="component-demo5">
+        <change-tab 
+         v-for="tab in tabButton"
+         v-bind:key="tab.text"
+         v-bind:tab="tab"
+         v-bind:class="['tab-button',{active:choosetab == tab.text}]"
+         v-on:aaa="bbb($event)"
+        ></change-tab>
+        <component v-bind:is="changeTab"></component>
+    </div>
+
+
+
+    <script src="js/vue.js"></script>
+    <script>
+        Vue.component('button-counter',{
+            data: function(){
+                return {
+                    count :0
+                }
+            },
+            template:'<button v-on:click="count++">You click me {{count}} times</button>'
+        })
+        new Vue({el:"#component-demo1"})
+
+
+        Vue.component('blog-post',{
+            props: ['post'],
+            template: `
+                <div class="blog-post">
+                    <h3>{{ post.title }}</h3>
+                    <button v-on:click="$emit('enlarge-text',0.1)">
+                        Enlarge text
+                    </button>
+                    <div>{{post.content}}</div>
+                    <div v-html="post.content"></div>  
+                </div>
+            `
+        })
+        new Vue({
+            el:"#component-demo2",
+            data:{
+                posts:[
+                    {id:1,title:"My Document 1",content:"<span>a</span>"},
+                    {id:2,title:"My Document 2",content:"我的文档2"},
+                    {id:3,title:"My Document 3",content:"我的文档3"},
+                    {id:4,title:"My Document 4",content:"我的文档4"},
+                ],
+                postFontSize:1
+            }
+        })
+
+        Vue.component('custom-input',{
+            props:['value'],
+            template:`
+                <input
+                 v-bind:value="value"
+                 v-on:input="$emit('input', $event.target.value)"    
+                >
+            `
+        })
+        new Vue({
+            el:"#component-demo3",
+            data:{
+                searchText:""
+            }
+        })
+
+
+        Vue.component('alert-box',{
+            template:`
+                <div class="demo-alert-box">
+                    <strong>Error!</strong>
+                    <strong><slot></slot></strong>
+                </div>    
+            `
+        })
+        new Vue({
+            el:"#component-demo4",
+            data:{
+
+            }
+        })
+        
+        
+
+
+        Vue.component('one-tab',{
+          template:`
+           <div>I am one-tab</div>
+          `  
+        })
+        Vue.component('two-tab',{
+          template:`
+           <div>I am two-tab</div>
+          `  
+        })
+        Vue.component('three-tab',{
+          template:`
+           <div>I am three-tab</div>
+          `  
+        })
+        Vue.component('change-tab',{
+            props:['tab'],
+            template:`
+             <button v-on:click="$emit('aaa',tab.text)">
+                {{tab.text}}
+             </button>   
+            `
+        })
+        new Vue({
+            el:"#component-demo5",
+            data:{
+                tabButton:[
+                    {text:"one"},
+                    {text:"two"},
+                    {text:"three"},
+                ],
+                choosetab:"two"
+            },
+            methods:{
+                bbb:function(val){
+                    this.choosetab = val
+                }
+            },
+            computed:{
+                changeTab:function(){
+                    return this.choosetab+"-tab"
+                }
+            }
+        })
+
+
+    </script>
+</body>
+</html>

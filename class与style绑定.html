@@ -1,0 +1,46 @@
+<!<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>class 与 style 绑定</title>
+</head>
+<body>
+    <div id="demo1" class="static" v-bind:class="classObject">
+        data绑定class
+    </div>
+    
+    <div id="demo2" v-bind:class="computedClass">
+        计算属性computed绑定class
+    </div>
+
+    <script src="js/vue.js"></script>
+    <script>
+        var demo1 = new Vue({
+            el: "#demo1",
+            data:{
+                classObject:{
+                    success: true,
+                    fail: false
+                }
+            }
+        })
+
+        var demo2 = new Vue({
+            el: "#demo2",
+            data:{
+                isActive:true,
+                error: false
+            },
+            computed: {
+                computedClass: function(){
+                    return{
+                        active: this.isActive && !this.error,
+                        "text-danger": this.error
+                    }
+                }        
+            }
+        })
+    </script>
+</body>
+</html>
